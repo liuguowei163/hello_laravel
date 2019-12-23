@@ -16,13 +16,20 @@ class UsersController extends Controller
     public function show(User $user){
         return view('users.show', compact('user'));
     }
-    //注册页面的提交验证方法
+    //注册页面的提交验证方法,验证通过，跳转到个人页面
     public function store(Request $request){
+        // var_dump($request->name);die;
         $this->validate($request,[
             'name' => 'required|max:50',
             'email' => 'required|email|unique:users|max:50',
             'password' => 'required|confirmed|min:6'
         ]);
-        return;
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+        session()->flash('success', '欢迎，您将在这里开启一段新的旅程~');
+        return redirect()->route('users.show', [$user]);
     }
 }

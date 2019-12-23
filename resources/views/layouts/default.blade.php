@@ -18,6 +18,7 @@
     </nav> -->
 
     <div class="container">
+      @include('share._messages')
       @yield('content')
       @include('layouts/_footer')
     </div>
