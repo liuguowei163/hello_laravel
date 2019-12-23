@@ -13,7 +13,6 @@ class UsersController extends Controller
     }
 
     public function show(User $user){
-        echo '用户展示';
-        // return view('users.show', compact('user'));
+        return view('users.show', compact('user'));
     }
 }
