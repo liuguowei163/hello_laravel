@@ -9,12 +9,19 @@ use Auth;
 class UsersController extends Controller
 {
     public function __construct(){
+        //除了 except 数组中指定的动作，其他的动作都必须登录以后才能操作：
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store']
+            'except' => ['show', 'create', 'store', 'index']
         ]);
+        //只允许未登录的用户来操作
         $this->middleware('guest', [
             'only' => ['create']
         ]);
+    }
+    //用户列表页面
+    public function index(){
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
     }
     //用户注册页面的渲染
     public function create(){
@@ -65,6 +72,11 @@ class UsersController extends Controller
         //     'password' => bcrypt($request->password)
         // ]);
         return redirect()->route('users.show', $user->id);
-
+    }
+    //删除用户
+    public function destroy(User $user){
+        $user->delete();
+        session()->flash('success', '成功删除用户');
+        return back();
     }
 }
