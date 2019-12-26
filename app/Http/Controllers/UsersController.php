@@ -31,7 +31,8 @@ class UsersController extends Controller
 
     //展示个人页面
     public function show(User $user){
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()->orderby('created_at', 'desc')->paginate(10);
+        return view('users.show', compact('user', 'statuses'));
     }
     //注册页面的提交验证方法,验证通过，跳转到个人页面
     public function store(Request $request){
