@@ -11,7 +11,11 @@
             <section class="user_info">
               @include('share._user_info', ['user' => $user])
             </section>
-             <section class="status">
+            <section class="stats mt-2">
+              @include('share._stats', ['user' => $user])
+            </section>
+            <hr>
+            <section class="status">
               @if ($statuses->count() > 0)
                 <ul class="list-unstyled">
                   @foreach ($statuses as $status)
